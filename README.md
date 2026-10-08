@@ -1,159 +1,114 @@
-# AbanTether USDT Chart Userscript
+# AbanTether USDT Chart UI Fix
 
-[فارسی](#فارسی) | [English](#english)
+A lightweight Tampermonkey userscript for client-side UI adjustments to AbanTether's USDT chart and price display.
 
-A small, open-source **Tampermonkey userscript** that customizes the **client-side UI** of the USDT/IRT chart on AbanTether's fast-trade and USDT coin pages.
+**Version:** `1.2.0`
 
-> **Disclaimer:** This project is independent and is **not affiliated with, endorsed by, or supported by AbanTether**. It locally hides a notice describing a regulatory restriction; it does **not** remove that restriction, grant access to unavailable market data, alter server responses, or guarantee chart accuracy. Respect applicable laws and the website's terms.
+## Features
+
+- Restores the visibility of TradingView charts by adjusting chart blur and overlay elements.
+- Supports the USDT fast-trade and coin information pages.
+- Removes the visual blur from restricted price labels using CSS overrides.
+- Hides price-related login tooltips.
+- Attempts to make price text selectable and prevent login-triggering click interactions.
+- Automatically reapplies chart adjustments when the page dynamically renders new content.
+- Runs entirely in the browser.
+
+## Supported Pages
+
+- `https://abantether.ir/trade/fast?symbol=USDT`
+- `https://abantether.ir/coin/USDT`
+
+Both `abantether.ir` and `www.abantether.ir` are covered by the userscript metadata.
+
+## Installation
+
+1. Install the Tampermonkey browser extension.
+2. Open the `abantether-chart.user.js` file in this repository.
+3. Click **Raw** or copy the complete script.
+4. Create a new script in Tampermonkey and paste the code.
+5. Save the script and enable it.
+6. Refresh one of the supported pages.
+
+## How It Works
+
+The userscript uses CSS overrides to modify the presentation of restricted price elements without removing their underlying HTML nodes.
+
+It also identifies chart wrappers and restriction overlays and adjusts them directly. A `MutationObserver` helps reapply these changes when the website updates its DOM.
+
+## Limitations
+
+- This project changes the browser UI only.
+- It does not modify server-side permissions, account authentication, API responses, or trading data.
+- The script depends on the website's current HTML structure and CSS classes.
+- Text selection and click interception may behave differently depending on browser and website changes.
+- TradingView datafeed errors, including time-order violations, are outside the scope of this project.
+- Displayed information should not be treated as independently verified market data.
+
+## Disclaimer
+
+This is an independent, unofficial project and is not affiliated with, endorsed by, or maintained by AbanTether.
+
+Use at your own discretion.
 
 ---
 
 <div dir="rtl" align="right">
 
-<h2 id="فارسی">فارسی</h2>
+# اصلاح رابط کاربری نمودار تتر آبان‌تتر
 
-<h3>معرفی</h3>
+اسکریپت سبک Tampermonkey برای اصلاح نمایش نمودار تتر و برخی بخش‌های نمایش قیمت در وب‌سایت آبان‌تتر.
 
-<p>این پروژه یک UserScript برای <strong>Tampermonkey</strong> است که ظاهر نمودار تتر در آبان‌تتر را <strong>فقط در مرورگر کاربر</strong> تغییر می‌دهد. نسخه <code dir="ltr">1.1.0</code> علاوه بر صفحه معاملات سریع، صفحه اختصاصی تتر را نیز پوشش می‌دهد.</p>
+**نسخه: `1.2.0`**
 
-<h3>صفحات پشتیبانی‌شده</h3>
-<ul>
-<li>ابتدا، در ساعات معمول معاملات (طبق بازه اعلام‌شده ۹ صبح تا ۹ شب)، صفحه <a href="https://abantether.ir/trade/fast?symbol=USDT">معاملات سریع تتر</a> با نشانی زیر در دسترس است:</li>
-</ul>
-<pre dir="ltr"><code>https://abantether.ir/trade/fast?symbol=USDT</code></pre>
-<ul>
-<li>همچنین، برای مراجعه به نمودار در خارج از ساعات معاملات، صفحه <a href="https://abantether.ir/coin/USDT">اختصاصی تتر</a> با این نشانی پشتیبانی می‌شود:</li>
-</ul>
-<pre dir="ltr"><code>https://abantether.ir/coin/USDT</code></pre>
-<p>بازه زمانی فوق مطابق وضعیت گزارش‌شده هنگام نگارش این راهنماست و ممکن است تغییر کند.</p>
+## قابلیت‌ها
 
-<h3>عملکرد</h3>
-<p><strong>در صفحه معاملات سریع:</strong> کلاس‌های اطراف نمودار از:</p>
-<pre dir="ltr"><code>pointer-events-none h-full w-full select-none blur-[6px]</code></pre>
-<p>به این مقدار تغییر می‌کنند:</p>
-<pre dir="ltr"><code>pointer-events h-full w-full select</code></pre>
-<p><strong>در صفحه اختصاصی تتر:</strong> کلاس‌های اطراف نمودار از:</p>
-<pre dir="ltr"><code>pointer-events-none h-full w-full select-none blur-[12px]</code></pre>
-<p>به همین مقدار تبدیل می‌شوند:</p>
-<pre dir="ltr"><code>pointer-events h-full w-full select</code></pre>
-<p>در هر دو صفحه، ویژگی <code dir="ltr">pointer-events: auto</code> اعمال می‌شود و تنها لایه‌ای حذف می‌شود که پیام «بنا به دستور نهاد ناظر» درباره «نمودار قیمت تتر» را نشان دهد. اسکریپت با <code dir="ltr">MutationObserver</code> تغییرات ساختار صفحه را نیز دنبال می‌کند.</p>
-<p><strong>محدوده اجرا:</strong> قواعد <code dir="ltr">@match</code> هر دو دامنه <code dir="ltr">abantether.ir</code> و <code dir="ltr">www.abantether.ir</code> را پوشش می‌دهند، ولی کد فقط در مسیرهای <code dir="ltr">/trade/fast</code> و <code dir="ltr">/coin/USDT</code> تغییر ایجاد می‌کند.</p>
+- اصلاح نمایش نمودار TradingView از طریق حذف تاری و لایه پوشاننده.
+- پشتیبانی از صفحه معاملات سریع و صفحه اختصاصی تتر.
+- حذف ظاهری تاری برچسب‌های قیمت با استفاده از CSS.
+- مخفی کردن پیام‌های راهنمای ورود به حساب کاربری در محدوده قیمت.
+- تلاش برای فراهم‌کردن امکان انتخاب متن قیمت و جلوگیری از برخی رویدادهای کلیک.
+- اعمال مجدد اصلاحات نمودار هنگام به‌روزرسانی محتوای صفحه.
+- اجرای تغییرات صرفاً در مرورگر کاربر.
 
-<h3>نصب</h3>
+## صفحات پشتیبانی‌شده
 
-<p><strong>مرورگرهای پشتیبانی‌شده:</strong> این اسکریپت برای اجرا در <strong>گوگل کروم (Google Chrome)</strong> و <strong>موزیلا فایرفاکس (Mozilla Firefox)</strong> با افزونه Tampermonkey طراحی شده است.</p>
+- `https://abantether.ir/trade/fast?symbol=USDT`
+- `https://abantether.ir/coin/USDT`
 
-<ol>
-<li>ابتدا افزونه <a href="https://www.tampermonkey.net/">Tampermonkey</a> را روی گوگل کروم یا فایرفاکس نصب کنید.</li>
-<li>سپس داشبورد Tampermonkey را باز کرده و گزینه <strong>Create a new script</strong> را انتخاب کنید.</li>
-<li>اکنون محتوای فایل <a href="./abantether-chart.user.js"><code dir="ltr">abantether-chart.user.js</code></a> را کپی کرده و جایگزین کد پیش‌فرض کنید.</li>
-<li>بعد از آن، با کلیدهای <code dir="ltr">Ctrl + S</code> کد را ذخیره کنید و از فعال بودن اسکریپت مطمئن شوید.</li>
-<li>در صورت نیاز، مجوز <strong>Allow User Scripts</strong> و دسترسی افزونه به سایت را در تنظیمات مرورگر فعال کنید.</li>
-<li>در پایان، <a href="https://abantether.ir/trade/fast?symbol=USDT">صفحه معاملات سریع</a> یا <a href="https://abantether.ir/coin/USDT">صفحه اختصاصی تتر</a> را باز کرده و آن را بازخوانی (Refresh) کنید.</li>
-</ol>
+## روش نصب
 
-<h3>عیب‌یابی</h3>
+۱. افزونه Tampermonkey را روی مرورگر نصب کنید.
 
-<ul>
-<li>اگر اسکریپت در فهرست Tampermonkey برای صفحه نشان داده نمی‌شود، وضعیت فعال بودن افزونه، <strong>Site access</strong> و <strong>Allow User Scripts</strong> را بررسی کنید.</li>
-<li>اگر اسکریپت فعال است اما نتیجه‌ای دیده نمی‌شود، ممکن است ساختار HTML یا متن لایه سایت تغییر کرده باشد.</li>
-<li>برای مشاهده گزارش‌ها مقدار <code dir="ltr">DEBUG</code> را در فایل JavaScript برابر <code dir="ltr">true</code> قرار دهید و Console مرورگر را بررسی کنید.</li>
-<li>خطاهای دریافت داده، احراز هویت و ترتیب زمانی TradingView با تغییر DOM رفع نمی‌شوند.</li>
-</ul>
+۲. فایل `abantether-chart.user.js` را از همین مخزن باز کنید.
 
-<h3>محدودیت‌ها</h3>
+۳. محتوای فایل را در یک اسکریپت جدید Tampermonkey قرار دهید.
 
-<ul>
-<li>این ابزار فقط رابط کاربری محلی را تغییر می‌دهد؛ <strong>هیچ درخواستی به API ارسال یا دستکاری نمی‌کند</strong>.</li>
-<li>حذف لایه هشدار به معنی رفع محدودیت اعلام‌شده یا در دسترس بودن داده‌ها نیست.</li>
-<li>تغییرات احتمالی سایت ممکن است باعث توقف عملکرد اسکریپت شوند.</li>
-<li>این پروژه توصیه مالی یا معاملاتی نیست.</li>
-</ul>
+۴. اسکریپت را ذخیره و فعال کنید.
+
+۵. صفحه موردنظر در آبان‌تتر را بارگذاری مجدد کنید.
+
+## نکات فنی
+
+این نسخه به‌جای حذف مستقیم ساختار HTML مربوط به قیمت، از بازنویسی قوانین CSS استفاده می‌کند.
+
+در بخش نمودار، لایه تارکننده و پوشاننده به‌صورت مستقیم اصلاح می‌شوند.
+
+برای مدیریت تغییرات پویای صفحه نیز از `MutationObserver` استفاده شده است.
+
+## محدودیت‌ها
+
+- اسکریپت فقط رابط کاربری مرورگر را تغییر می‌دهد.
+- مجوزهای سرور، اطلاعات حساب، پاسخ API و داده‌های معاملات را تغییر نمی‌دهد.
+- عملکرد آن به ساختار فعلی وب‌سایت وابسته است.
+- انتخاب متن و جلوگیری از باز شدن پنجره ورود ممکن است در شرایط مختلف یکسان عمل نکند.
+- خطاهای داده‌ای TradingView، از جمله ناهماهنگی زمانی کندل‌ها، توسط این اسکریپت اصلاح نمی‌شوند.
+- نمایش نمودار به معنای تأیید مستقل صحت قیمت‌ها نیست.
+
+## سلب مسئولیت
+
+این پروژه مستقل و غیررسمی است و هیچ وابستگی یا تأییدی از طرف آبان‌تتر ندارد.
+
+استفاده از آن بر عهده کاربر است.
 
 </div>
-
----
-
-## English
-
-### Overview
-
-This is a **Tampermonkey userscript** that customizes the USDT/IRT chart interface **locally in your browser**. Version **1.1.0** covers both the fast-trade page and the USDT coin page.
-
-### Supported pages
-
-- **Fast trade:** [USDT fast trade](https://abantether.ir/trade/fast?symbol=USDT) — reported as accessible during trading hours (9:00 AM–9:00 PM).
-- **USDT coin page:** [USDT coin](https://abantether.ir/coin/USDT) — an alternative page available outside those hours, as reported at the time of writing.
-
-The reported hours may change; this project does not control page availability.
-
-### Features
-
-On **`/trade/fast`**, the wrapper classes change from:
-
-```text
-pointer-events-none h-full w-full select-none blur-[6px]
-```
-
-to:
-
-```text
-pointer-events h-full w-full select
-```
-
-On **`/coin/USDT`**, the wrapper classes change from:
-
-```text
-pointer-events-none h-full w-full select-none blur-[12px]
-```
-
-to the same unblurred classes:
-
-```text
-pointer-events h-full w-full select
-```
-
-On both pages, the script sets `pointer-events: auto`, removes only the overlay containing the specific Persian USDT chart restriction message, and uses `MutationObserver` to handle dynamic DOM re-renders. It does not depend on TradingView's changing iframe ID.
-
-**Scope:** Broad `@match` rules include `abantether.ir/*` and `www.abantether.ir/*` for injection reliability; an explicit runtime guard limits DOM modifications to `/trade/fast` and `/coin/USDT`.
-
-### Installation
-
-**Supported browsers:** Google Chrome and Mozilla Firefox, with the Tampermonkey extension.
-
-1. Install [Tampermonkey](https://www.tampermonkey.net/).
-2. Open its dashboard and select **Create a new script**.
-3. Replace the template with the contents of [`abantether-chart.user.js`](./abantether-chart.user.js).
-4. Save with `Ctrl + S` and ensure the script is enabled.
-5. Where required, enable your browser's **Allow User Scripts** setting and grant site access.
-6. Open either the [USDT fast-trade page](https://abantether.ir/trade/fast?symbol=USDT) or the [USDT coin page](https://abantether.ir/coin/USDT) and refresh.
-
-### Troubleshooting
-
-- If Tampermonkey does not list the script on the page, check the extension's enabled state, **Site access**, and **Allow User Scripts** permission.
-- If it runs but nothing changes, the website's DOM structure or restriction-message text may have changed.
-- Set `DEBUG = true` in the JavaScript file and check the browser console for diagnostic messages.
-- TradingView data-feed, authentication, and time-ordering errors are outside the scope of this script.
-
-### Limitations
-
-- This is **client-side UI customization only**. It does not intercept or modify API traffic.
-- Hiding the notice does **not** lift a regulatory restriction or ensure that market data is available.
-- Site changes may break the script.
-- This software does not provide financial or trading advice.
-
----
-
-## Files
-
-```text
-AbanTether-USDTChart-Userscript/
-├── README.md
-├── abantether-chart.user.js
-├── LICENSE
-└── .gitignore
-```
-
-## License
-
-Released under the [MIT License](./LICENSE).
