@@ -8,63 +8,70 @@ A small, open-source **Tampermonkey userscript** that changes the **client-side 
 
 ---
 
-## فارسی
+<div dir="rtl" align="right">
 
-### معرفی
+<h2 id="فارسی">فارسی</h2>
 
-این پروژه یک UserScript برای **Tampermonkey** است که ظاهر نمودار تتر در صفحات معاملات سریع آبان‌تتر را **فقط در مرورگر کاربر** تغییر می‌دهد.
+<h3>معرفی</h3>
 
-**آدرس هدف:**
+<p>این پروژه یک UserScript برای <strong>Tampermonkey</strong> است که ظاهر نمودار تتر در صفحات معاملات سریع آبان‌تتر را <strong>فقط در مرورگر کاربر</strong> تغییر می‌دهد.</p>
 
-```text
-https://abantether.ir/trade/fast?symbol=USDT
-```
+<p><strong>آدرس هدف:</strong></p>
 
-اسکریپت برای آدرس‌هایی که مسیرشان با `/trade/fast` شروع شود فعال است؛ پارامترهای Query مانند `?symbol=USDT` مانعی برای اجرا نیستند.
+<pre dir="ltr"><code>https://abantether.ir/trade/fast?symbol=USDT</code></pre>
 
-### عملکرد
+<p>اسکریپت برای آدرس‌هایی که مسیرشان با <code dir="ltr">/trade/fast</code> شروع شود فعال است؛ پارامترهایی مثل <code dir="ltr">?symbol=USDT</code> مانعی برای اجرا نیستند.</p>
 
-1. عنصری را که حاوی iframe با عنوان `Financial Chart` است پیدا می‌کند.
-2. کلاس‌های wrapper نمودار را از:
+<h3>عملکرد</h3>
 
-   ```text
-   pointer-events-none h-full w-full select-none blur-[6px]
-   ```
+<ol>
+<li>عنصری را که حاوی iframe با عنوان <code dir="ltr">Financial Chart</code> است پیدا می‌کند.</li>
+<li>کلاس‌های عنصر پیرامونی نمودار را از مقدار زیر:</li>
+</ol>
 
-   به:
+<pre dir="ltr"><code>pointer-events-none h-full w-full select-none blur-[6px]</code></pre>
 
-   ```text
-   pointer-events h-full w-full select
-   ```
+<p>به مقدار زیر تغییر می‌دهد و ویژگی <code dir="ltr">pointer-events: auto</code> را اعمال می‌کند:</p>
 
-   تغییر می‌دهد و `pointer-events: auto` را اعمال می‌کند.
-3. **فقط** لایه‌ای را حذف می‌کند که متن آن شامل «بنا به دستور نهاد ناظر» و «نمودار قیمت تتر» باشد.
-4. با `MutationObserver` در صورت رندر مجدد عناصر، تغییرات را دوباره اعمال می‌کند.
+<pre dir="ltr"><code>pointer-events h-full w-full select</code></pre>
 
-**محدوده اجرا:** در هدر اسکریپت، مجوز اجرا برای `abantether.ir/*` و `www.abantether.ir/*` درخواست شده است تا مشکل شناسایی اسکریپت در Tampermonkey کاهش یابد؛ با این حال شرط داخلی کد، هرگونه تغییر DOM را به مسیرهای شروع‌شونده با `/trade/fast` محدود می‌کند.
+<ol start="3">
+<li><strong>فقط</strong> لایه‌ای را حذف می‌کند که متن آن شامل «بنا به دستور نهاد ناظر» و «نمودار قیمت تتر» باشد.</li>
+<li>با <code dir="ltr">MutationObserver</code> در صورت رندر مجدد عناصر، تغییرات را دوباره اعمال می‌کند.</li>
+</ol>
 
-### نصب
+<p><strong>محدوده اجرا:</strong> در هدر اسکریپت، مجوز اجرا برای <code dir="ltr">abantether.ir/*</code> و <code dir="ltr">www.abantether.ir/*</code> درخواست شده است تا مشکل شناسایی اسکریپت در Tampermonkey کاهش یابد؛ با این حال شرط داخلی کد، تغییر DOM را به مسیرهای شروع‌شونده با <code dir="ltr">/trade/fast</code> محدود می‌کند.</p>
 
-1. [Tampermonkey](https://www.tampermonkey.net/) را روی مرورگر نصب کنید.
-2. از داشبورد Tampermonkey گزینه **Create a new script** را انتخاب کنید.
-3. محتوای فایل [`abantether-chart.user.js`](./abantether-chart.user.js) را کپی و جایگزین کد پیش‌فرض کنید.
-4. با `Ctrl + S` ذخیره کنید و مطمئن شوید اسکریپت فعال است.
-5. در مرورگرهایی که لازم است، مجوز **Allow User Scripts** و دسترسی افزونه به سایت را فعال کنید.
-6. صفحه [معاملات سریع تتر](https://abantether.ir/trade/fast?symbol=USDT) را باز کرده و Refresh کنید.
+<h3>نصب</h3>
 
-### عیب‌یابی
+<ol>
+<li><a href="https://www.tampermonkey.net/">Tampermonkey</a> را روی مرورگر نصب کنید.</li>
+<li>از داشبورد Tampermonkey گزینه <strong>Create a new script</strong> را انتخاب کنید.</li>
+<li>محتوای فایل <a href="./abantether-chart.user.js"><code>abantether-chart.user.js</code></a> را کپی و جایگزین کد پیش‌فرض کنید.</li>
+<li>با <code dir="ltr">Ctrl + S</code> ذخیره کنید و مطمئن شوید اسکریپت فعال است.</li>
+<li>در مرورگرهایی که لازم است، مجوز <strong>Allow User Scripts</strong> و دسترسی افزونه به سایت را فعال کنید.</li>
+<li>صفحه <a href="https://abantether.ir/trade/fast?symbol=USDT">معاملات سریع تتر</a> را باز کرده و بازخوانی (Refresh) کنید.</li>
+</ol>
 
-- اگر اسکریپت در فهرست Tampermonkey برای صفحه نشان داده نمی‌شود، وضعیت فعال بودن افزونه، **Site access** و **Allow User Scripts** را بررسی کنید.
-- اگر اسکریپت فعال است اما نتیجه‌ای دیده نمی‌شود، ممکن است ساختار HTML یا متن لایه سایت تغییر کرده باشد.
-- برای مشاهده گزارش‌ها مقدار `DEBUG` را در فایل JavaScript برابر `true` قرار دهید و Console مرورگر را بررسی کنید.
-- خطاهای دریافت داده، احراز هویت و ترتیب زمانی TradingView با تغییر DOM رفع نمی‌شوند.
+<h3>عیب‌یابی</h3>
 
-### محدودیت‌ها
+<ul>
+<li>اگر اسکریپت در فهرست Tampermonkey برای صفحه نشان داده نمی‌شود، وضعیت فعال بودن افزونه، <strong>Site access</strong> و <strong>Allow User Scripts</strong> را بررسی کنید.</li>
+<li>اگر اسکریپت فعال است اما نتیجه‌ای دیده نمی‌شود، ممکن است ساختار HTML یا متن لایه سایت تغییر کرده باشد.</li>
+<li>برای مشاهده گزارش‌ها مقدار <code dir="ltr">DEBUG</code> را در فایل JavaScript برابر <code dir="ltr">true</code> قرار دهید و Console مرورگر را بررسی کنید.</li>
+<li>خطاهای دریافت داده، احراز هویت و ترتیب زمانی TradingView با تغییر DOM رفع نمی‌شوند.</li>
+</ul>
 
-- این ابزار فقط رابط کاربری محلی را تغییر می‌دهد؛ **هیچ درخواستی به API ارسال یا دستکاری نمی‌کند**.
-- حذف لایه هشدار به معنی رفع محدودیت اعلام‌شده یا در دسترس بودن داده‌ها نیست.
-- تغییرات احتمالی سایت ممکن است باعث توقف عملکرد اسکریپت شوند.
-- این پروژه توصیه مالی یا معاملاتی نیست.
+<h3>محدودیت‌ها</h3>
+
+<ul>
+<li>این ابزار فقط رابط کاربری محلی را تغییر می‌دهد؛ <strong>هیچ درخواستی به API ارسال یا دستکاری نمی‌کند</strong>.</li>
+<li>حذف لایه هشدار به معنی رفع محدودیت اعلام‌شده یا در دسترس بودن داده‌ها نیست.</li>
+<li>تغییرات احتمالی سایت ممکن است باعث توقف عملکرد اسکریپت شوند.</li>
+<li>این پروژه توصیه مالی یا معاملاتی نیست.</li>
+</ul>
+
+</div>
 
 ---
 
