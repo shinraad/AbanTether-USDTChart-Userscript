@@ -2,7 +2,7 @@
 
 [فارسی](#فارسی) | [English](#english)
 
-A small, open-source **Tampermonkey userscript** that changes the **client-side UI** of the USDT/IRT chart on AbanTether's fast-trade pages.
+A small, open-source **Tampermonkey userscript** that customizes the **client-side UI** of the USDT/IRT chart on AbanTether's fast-trade and USDT coin pages.
 
 > **Disclaimer:** This project is independent and is **not affiliated with, endorsed by, or supported by AbanTether**. It locally hides a notice describing a regulatory restriction; it does **not** remove that restriction, grant access to unavailable market data, alter server responses, or guarantee chart accuracy. Respect applicable laws and the website's terms.
 
@@ -14,33 +14,30 @@ A small, open-source **Tampermonkey userscript** that changes the **client-side 
 
 <h3>معرفی</h3>
 
-<p>این پروژه یک UserScript برای <strong>Tampermonkey</strong> است که ظاهر نمودار تتر در صفحات معاملات سریع آبان‌تتر را <strong>فقط در مرورگر کاربر</strong> تغییر می‌دهد.</p>
+<p>این پروژه یک UserScript برای <strong>Tampermonkey</strong> است که ظاهر نمودار تتر در آبان‌تتر را <strong>فقط در مرورگر کاربر</strong> تغییر می‌دهد. نسخه <code dir="ltr">1.1.0</code> علاوه بر صفحه معاملات سریع، صفحه اختصاصی تتر را نیز پوشش می‌دهد.</p>
 
-<p><strong>آدرس هدف:</strong></p>
-
+<h3>صفحات پشتیبانی‌شده</h3>
+<ul>
+<li>ابتدا، در ساعات معمول معاملات (طبق بازه اعلام‌شده ۹ صبح تا ۹ شب)، صفحه <a href="https://abantether.ir/trade/fast?symbol=USDT">معاملات سریع تتر</a> با نشانی زیر در دسترس است:</li>
+</ul>
 <pre dir="ltr"><code>https://abantether.ir/trade/fast?symbol=USDT</code></pre>
-
-<p>اسکریپت برای آدرس‌هایی که مسیرشان با <code dir="ltr">/trade/fast</code> شروع شود فعال است؛ پارامترهایی مثل <code dir="ltr">?symbol=USDT</code> مانعی برای اجرا نیستند.</p>
+<ul>
+<li>همچنین، برای مراجعه به نمودار در خارج از ساعات معاملات، صفحه <a href="https://abantether.ir/coin/USDT">اختصاصی تتر</a> با این نشانی پشتیبانی می‌شود:</li>
+</ul>
+<pre dir="ltr"><code>https://abantether.ir/coin/USDT</code></pre>
+<p>بازه زمانی فوق مطابق وضعیت گزارش‌شده هنگام نگارش این راهنماست و ممکن است تغییر کند.</p>
 
 <h3>عملکرد</h3>
-
-<ol>
-<li>عنصری را که حاوی iframe با عنوان <code dir="ltr">Financial Chart</code> است پیدا می‌کند.</li>
-<li>کلاس‌های عنصر پیرامونی نمودار را از مقدار زیر:</li>
-</ol>
-
+<p><strong>در صفحه معاملات سریع:</strong> کلاس‌های اطراف نمودار از:</p>
 <pre dir="ltr"><code>pointer-events-none h-full w-full select-none blur-[6px]</code></pre>
-
-<p>به مقدار زیر تغییر می‌دهد و ویژگی <code dir="ltr">pointer-events: auto</code> را اعمال می‌کند:</p>
-
+<p>به این مقدار تغییر می‌کنند:</p>
 <pre dir="ltr"><code>pointer-events h-full w-full select</code></pre>
-
-<ol start="3">
-<li><strong>فقط</strong> لایه‌ای را حذف می‌کند که متن آن شامل «بنا به دستور نهاد ناظر» و «نمودار قیمت تتر» باشد.</li>
-<li>با <code dir="ltr">MutationObserver</code> در صورت رندر مجدد عناصر، تغییرات را دوباره اعمال می‌کند.</li>
-</ol>
-
-<p><strong>محدوده اجرا:</strong> در هدر اسکریپت، مجوز اجرا برای <code dir="ltr">abantether.ir/*</code> و <code dir="ltr">www.abantether.ir/*</code> درخواست شده است تا مشکل شناسایی اسکریپت در Tampermonkey کاهش یابد؛ با این حال شرط داخلی کد، تغییر DOM را به مسیرهای شروع‌شونده با <code dir="ltr">/trade/fast</code> محدود می‌کند.</p>
+<p><strong>در صفحه اختصاصی تتر:</strong> کلاس‌های اطراف نمودار از:</p>
+<pre dir="ltr"><code>pointer-events-none h-full w-full select-none blur-[12px]</code></pre>
+<p>به همین مقدار تبدیل می‌شوند:</p>
+<pre dir="ltr"><code>pointer-events h-full w-full select</code></pre>
+<p>در هر دو صفحه، ویژگی <code dir="ltr">pointer-events: auto</code> اعمال می‌شود و تنها لایه‌ای حذف می‌شود که پیام «بنا به دستور نهاد ناظر» درباره «نمودار قیمت تتر» را نشان دهد. اسکریپت با <code dir="ltr">MutationObserver</code> تغییرات ساختار صفحه را نیز دنبال می‌کند.</p>
+<p><strong>محدوده اجرا:</strong> قواعد <code dir="ltr">@match</code> هر دو دامنه <code dir="ltr">abantether.ir</code> و <code dir="ltr">www.abantether.ir</code> را پوشش می‌دهند، ولی کد فقط در مسیرهای <code dir="ltr">/trade/fast</code> و <code dir="ltr">/coin/USDT</code> تغییر ایجاد می‌کند.</p>
 
 <h3>نصب</h3>
 
@@ -52,7 +49,7 @@ A small, open-source **Tampermonkey userscript** that changes the **client-side 
 <li>اکنون محتوای فایل <a href="./abantether-chart.user.js"><code dir="ltr">abantether-chart.user.js</code></a> را کپی کرده و جایگزین کد پیش‌فرض کنید.</li>
 <li>بعد از آن، با کلیدهای <code dir="ltr">Ctrl + S</code> کد را ذخیره کنید و از فعال بودن اسکریپت مطمئن شوید.</li>
 <li>در صورت نیاز، مجوز <strong>Allow User Scripts</strong> و دسترسی افزونه به سایت را در تنظیمات مرورگر فعال کنید.</li>
-<li>در پایان، <a href="https://abantether.ir/trade/fast?symbol=USDT">صفحه معاملات سریع تتر</a> را باز کرده و آن را بازخوانی (Refresh) کنید.</li>
+<li>در پایان، <a href="https://abantether.ir/trade/fast?symbol=USDT">صفحه معاملات سریع</a> یا <a href="https://abantether.ir/coin/USDT">صفحه اختصاصی تتر</a> را باز کرده و آن را بازخوانی (Refresh) کنید.</li>
 </ol>
 
 <h3>عیب‌یابی</h3>
@@ -81,36 +78,44 @@ A small, open-source **Tampermonkey userscript** that changes the **client-side 
 
 ### Overview
 
-This is a **Tampermonkey userscript** that modifies the USDT/IRT chart interface on AbanTether fast-trade pages **in your own browser only**.
+This is a **Tampermonkey userscript** that customizes the USDT/IRT chart interface **locally in your browser**. Version **1.1.0** covers both the fast-trade page and the USDT coin page.
 
-**Example URL:**
+### Supported pages
 
-```text
-https://abantether.ir/trade/fast?symbol=USDT
-```
+- **Fast trade:** [USDT fast trade](https://abantether.ir/trade/fast?symbol=USDT) — reported as accessible during trading hours (9:00 AM–9:00 PM).
+- **USDT coin page:** [USDT coin](https://abantether.ir/coin/USDT) — an alternative page available outside those hours, as reported at the time of writing.
 
-The script targets paths beginning with `/trade/fast`, including URLs with query parameters such as `?symbol=USDT`.
+The reported hours may change; this project does not control page availability.
 
 ### Features
 
-1. Locates the chart by the iframe title `Financial Chart` (without relying on its changing ID).
-2. Replaces the wrapper classes:
+On **`/trade/fast`**, the wrapper classes change from:
 
-   ```text
-   pointer-events-none h-full w-full select-none blur-[6px]
-   ```
+```text
+pointer-events-none h-full w-full select-none blur-[6px]
+```
 
-   with:
+to:
 
-   ```text
-   pointer-events h-full w-full select
-   ```
+```text
+pointer-events h-full w-full select
+```
 
-   and sets `pointer-events: auto`.
-3. Removes **only** an overlay whose text contains both `بنا به دستور نهاد ناظر` and `نمودار قیمت تتر`.
-4. Uses a `MutationObserver` to reapply changes after dynamic DOM updates.
+On **`/coin/USDT`**, the wrapper classes change from:
 
-**Scope:** The userscript metadata matches both `abantether.ir/*` and `www.abantether.ir/*` to improve injection reliability. An additional runtime check ensures that DOM modifications happen only when the path starts with `/trade/fast`.
+```text
+pointer-events-none h-full w-full select-none blur-[12px]
+```
+
+to the same unblurred classes:
+
+```text
+pointer-events h-full w-full select
+```
+
+On both pages, the script sets `pointer-events: auto`, removes only the overlay containing the specific Persian USDT chart restriction message, and uses `MutationObserver` to handle dynamic DOM re-renders. It does not depend on TradingView's changing iframe ID.
+
+**Scope:** Broad `@match` rules include `abantether.ir/*` and `www.abantether.ir/*` for injection reliability; an explicit runtime guard limits DOM modifications to `/trade/fast` and `/coin/USDT`.
 
 ### Installation
 
@@ -121,7 +126,7 @@ The script targets paths beginning with `/trade/fast`, including URLs with query
 3. Replace the template with the contents of [`abantether-chart.user.js`](./abantether-chart.user.js).
 4. Save with `Ctrl + S` and ensure the script is enabled.
 5. Where required, enable your browser's **Allow User Scripts** setting and grant site access.
-6. Open the [USDT fast-trade page](https://abantether.ir/trade/fast?symbol=USDT) and refresh.
+6. Open either the [USDT fast-trade page](https://abantether.ir/trade/fast?symbol=USDT) or the [USDT coin page](https://abantether.ir/coin/USDT) and refresh.
 
 ### Troubleshooting
 
