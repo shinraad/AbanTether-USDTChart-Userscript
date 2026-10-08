@@ -44,13 +44,15 @@ A small, open-source **Tampermonkey userscript** that changes the **client-side 
 
 <h3>نصب</h3>
 
+<p><strong>مرورگرهای پشتیبانی‌شده:</strong> این اسکریپت برای اجرا در <strong>گوگل کروم (Google Chrome)</strong> و <strong>موزیلا فایرفاکس (Mozilla Firefox)</strong> با افزونه Tampermonkey طراحی شده است.</p>
+
 <ol>
-<li><a href="https://www.tampermonkey.net/">Tampermonkey</a> را روی مرورگر نصب کنید.</li>
-<li>از داشبورد Tampermonkey گزینه <strong>Create a new script</strong> را انتخاب کنید.</li>
-<li>محتوای فایل <a href="./abantether-chart.user.js"><code>abantether-chart.user.js</code></a> را کپی و جایگزین کد پیش‌فرض کنید.</li>
-<li>با <code dir="ltr">Ctrl + S</code> ذخیره کنید و مطمئن شوید اسکریپت فعال است.</li>
-<li>در مرورگرهایی که لازم است، مجوز <strong>Allow User Scripts</strong> و دسترسی افزونه به سایت را فعال کنید.</li>
-<li>صفحه <a href="https://abantether.ir/trade/fast?symbol=USDT">معاملات سریع تتر</a> را باز کرده و بازخوانی (Refresh) کنید.</li>
+<li>ابتدا افزونه <a href="https://www.tampermonkey.net/">Tampermonkey</a> را روی گوگل کروم یا فایرفاکس نصب کنید.</li>
+<li>سپس داشبورد Tampermonkey را باز کرده و گزینه <strong>Create a new script</strong> را انتخاب کنید.</li>
+<li>اکنون محتوای فایل <a href="./abantether-chart.user.js"><code dir="ltr">abantether-chart.user.js</code></a> را کپی کرده و جایگزین کد پیش‌فرض کنید.</li>
+<li>بعد از آن، با کلیدهای <code dir="ltr">Ctrl + S</code> کد را ذخیره کنید و از فعال بودن اسکریپت مطمئن شوید.</li>
+<li>در صورت نیاز، مجوز <strong>Allow User Scripts</strong> و دسترسی افزونه به سایت را در تنظیمات مرورگر فعال کنید.</li>
+<li>در پایان، <a href="https://abantether.ir/trade/fast?symbol=USDT">صفحه معاملات سریع تتر</a> را باز کرده و آن را بازخوانی (Refresh) کنید.</li>
 </ol>
 
 <h3>عیب‌یابی</h3>
@@ -111,6 +113,8 @@ The script targets paths beginning with `/trade/fast`, including URLs with query
 **Scope:** The userscript metadata matches both `abantether.ir/*` and `www.abantether.ir/*` to improve injection reliability. An additional runtime check ensures that DOM modifications happen only when the path starts with `/trade/fast`.
 
 ### Installation
+
+**Supported browsers:** Google Chrome and Mozilla Firefox, with the Tampermonkey extension.
 
 1. Install [Tampermonkey](https://www.tampermonkey.net/).
 2. Open its dashboard and select **Create a new script**.
